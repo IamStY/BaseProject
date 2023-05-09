@@ -1,9 +1,6 @@
 package com.example.myapplication.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.*
 
 @Dao
@@ -17,7 +14,8 @@ interface CompaniesDao {
     @Query("SELECT * FROM companies WHERE company LIKE :company LIMIT 1")
     fun findByName(company: String ): CompaniesEntity
 
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(  companies: List<CompaniesEntity>)
 
     @Delete
