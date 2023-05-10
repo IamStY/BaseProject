@@ -2,7 +2,6 @@ package com.example.myapplication.repository
 
 import com.example.myapplication.database.CompaniesDao
 import com.example.myapplication.database.CompaniesEntity
-import com.example.myapplication.network.RetrofitInstance
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -11,10 +10,16 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TempRepository(
-    private val ioDispatcher: CoroutineDispatcher, private val companiesDao: CompaniesDao
+    private val ioDispatcher: CoroutineDispatcher,
+    private val companiesDao: CompaniesDao,
+    private val retrofitAPIService: RetrofitAPIService
 ) {
     @Inject
-    constructor(companiesDao: CompaniesDao) : this(Dispatchers.IO, companiesDao)
+    constructor(companiesDao: CompaniesDao, retrofitAPIService: RetrofitAPIService) : this(
+        Dispatchers.IO,
+        companiesDao,
+        retrofitAPIService
+    )
 
     suspend fun getNewListing(): Flow<List<CompaniesBean>> = withContext(ioDispatcher) {
         companiesDao.getAll().map { companiesEntity ->
@@ -23,7 +28,7 @@ class TempRepository(
     }
 
     suspend fun updateNewListing() = withContext(ioDispatcher) {
-        val response = RetrofitInstance.retrofit.getNewListing()
+        val response = retrofitAPIService.getNewListing()
         when (response.isSuccessful) {
             true -> {
                 companiesDao.insertAll(response.body()!!.map { it.adapt() })
