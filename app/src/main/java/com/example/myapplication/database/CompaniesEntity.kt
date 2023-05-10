@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "companies")
-class CompaniesEntity  (
+class CompaniesEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int = 0,
@@ -36,4 +36,4 @@ class CompaniesEntity  (
     val underwritingPrice: String?,
     @ColumnInfo(name = "note")
     val note: String?
-    )
+)

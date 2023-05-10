@@ -3,6 +3,7 @@ package com.example.myapplication.ui.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.tools.extentions.viewBinding
@@ -12,11 +13,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel : MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private val binding by viewBinding(ActivityMainBinding::inflate)
     private val listAdapter by lazy {
         BaseProjectListAdapter()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,9 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-         viewModel.displayVO.observe(this) {
-             Log.e("wtfwtf",it.size.toString())
-             listAdapter.submitList(it)
-         }
+        viewModel.displayVO.observe(this) {
+            listAdapter.submitList(it)
+        }
+
+        viewModel.toastMessage.observe(this) {
+            Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+        }
     }
 }

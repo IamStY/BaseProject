@@ -12,11 +12,11 @@ interface CompaniesDao {
     fun loadAllByNames(company: List<String>): Flow<List<CompaniesEntity>>
 
     @Query("SELECT * FROM companies WHERE company LIKE :company LIMIT 1")
-    fun findByName(company: String ): CompaniesEntity
+    fun findByName(company: String): CompaniesEntity
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(  companies: List<CompaniesEntity>)
+    fun insertAll(companies: List<CompaniesEntity>)
 
     @Delete
     fun delete(company: CompaniesEntity)

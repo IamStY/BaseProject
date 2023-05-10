@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.myapplication.database.CompaniesEntity
 import com.example.myapplication.repository.CompaniesBean
 import com.example.myapplication.repository.TempRepository
+import com.example.myapplication.tools.extentions.SingleLiveEvent
 import com.example.myapplication.tools.extentions.launchCatching
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -19,6 +20,8 @@ class MainViewModel @Inject constructor(private val tempRepository: TempReposito
     private val _displayVO = MutableLiveData<List<CompaniesVO>>()
     val displayVO: LiveData<List<CompaniesVO>> = _displayVO.distinctUntilChanged()
 
+    val toastMessage = SingleLiveEvent<String>()
+
     init {
         viewModelScope.launch {
             launchCatching {
@@ -29,15 +32,17 @@ class MainViewModel @Inject constructor(private val tempRepository: TempReposito
                     }
                 }
             }.onFailure {
-
+                toastMessage.value = it.message
             }
         }
     }
+
     fun addNewCompany() {
         viewModelScope.launch {
             tempRepository.addWierdItem()
         }
     }
+
     data class CompaniesVO(val companiesName: String)
 
 

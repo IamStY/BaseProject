@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.viewmodels.MainViewModel
 
-class BaseProjectListAdapter  : ListAdapter<MainViewModel.CompaniesVO, BaseProjectListAdapter.BaseProjectItemViewHolder>(DiffCallback) {
+class BaseProjectListAdapter :
+    ListAdapter<MainViewModel.CompaniesVO, BaseProjectListAdapter.BaseProjectItemViewHolder>(
+        DiffCallback
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseProjectItemViewHolder {
         val item = LayoutInflater.from(parent.context)
@@ -29,13 +32,18 @@ class BaseProjectListAdapter  : ListAdapter<MainViewModel.CompaniesVO, BaseProje
 
     private object DiffCallback : DiffUtil.ItemCallback<MainViewModel.CompaniesVO>() {
 
-        override fun areItemsTheSame(oldItem: MainViewModel.CompaniesVO, newItem: MainViewModel.CompaniesVO): Boolean {
+        override fun areItemsTheSame(
+            oldItem: MainViewModel.CompaniesVO,
+            newItem: MainViewModel.CompaniesVO
+        ): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: MainViewModel.CompaniesVO, newItem: MainViewModel.CompaniesVO): Boolean {
+        override fun areContentsTheSame(
+            oldItem: MainViewModel.CompaniesVO,
+            newItem: MainViewModel.CompaniesVO
+        ): Boolean {
             return oldItem == newItem
         }
     }
-
 }
