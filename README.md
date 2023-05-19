@@ -2,7 +2,7 @@
 MVVM 
 LiveData
 Repository 
-DI
+DI(Hilt)
 RoomDb 
 Coroutine
 Flow
